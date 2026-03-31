@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loan Details</title>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg,#f5f7fb,#e0f7fa);
+    margin:0;
+    padding:0;
+}
+
+/* ---------- Container ---------- */
+.container {
+    width:60%;
+    margin:auto;
+    margin-top:50px;
+    padding:30px;
+}
+
+/* ---------- Header ---------- */
+h2 {
+    text-align:center;
+    color:#1a1a2e;
+    margin-bottom:30px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+    background:white;
+    border-radius:12px;
+    padding:20px 25px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.1);
+    margin-bottom:25px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* ---------- Card Titles ---------- */
+.card h3 {
+    margin-top:0;
+    color:#111;
+    border-bottom:2px solid #00bcd4;
+    padding-bottom:5px;
+    margin-bottom:15px;
+}
+
+/* ---------- Paragraphs ---------- */
+.card p {
+    font-size:16px;
+    margin:8px 0;
+    color:#555;
+}
+
+/* ---------- Strong Text ---------- */
+.card p strong {
+    color:#111;
+}
+
+/* ---------- Divider ---------- */
+hr {
+    border:0;
+    border-top:1px solid #ddd;
+    margin:20px 0;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Loan Info Card -->
+<div class="card">
+<h3>Loan Information</h3>
+<p><strong>User:</strong> {{loan.user.full_name}}</p>
+<p><strong>Loan Type:</strong> {{loan.loan_type}}</p>
+<p><strong>Amount:</strong> ₹ {{loan.loan_amount}}</p>
+<p><strong>Duration:</strong> {{loan.loan_duration}} months</p>
+<p><strong>Status:</strong> {{loan.status}}</p>
+</div>
+
+{% if approval %}
+<!-- Approval Details Card -->
+<div class="card">
+<h3>Approval Details</h3>
+<p><strong>Approved Amount:</strong> ₹ {{approval.approved_amount}}</p>
+<p><strong>Interest Rate:</strong> {{approval.interest_rate}}%</p>
+<p><strong>EMI:</strong> ₹ {{approval.emi}}</p>
+<p><strong>Duration:</strong> {{approval.duration}} months</p>
+<p><strong>Approval Date:</strong> {{approval.approval_date}}</p>
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>

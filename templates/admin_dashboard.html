@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Admin Dashboard</title>
+
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: #f0f4f8;
+    color: #333;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    background: linear-gradient(90deg, #00bcd4, #26a69a);
+    padding: 15px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.navbar a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------- Container ---------- */
+.container {
+    padding: 40px 30px;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #00796b;
+    font-size: 32px;
+}
+
+/* ---------- Summary Cards ---------- */
+.summary-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff, #f0f4f8);
+    width: 220px;
+    padding: 30px 20px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Title */
+.card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Card Value */
+.card p {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: #00796b;
+}
+
+/* Different card colors */
+.card.users { background: #74b9ff; color: white; }
+.card.loans { background: #55efc4; color: white; }
+.card.pending { background: #ffeaa7; color: #1a1a2e; }
+.card.approved { background: #ff7675; color: white; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .summary-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 80%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <a href="/admin-dashboard/">Dashboard</a>
+    <a href="/all-loans/">All Loans</a>
+    <a href="/pending-loans/">Pending Loans</a>
+    <a href="/approved-loans/">Approved Loans</a>
+    <a href="/admin-logout/">Logout</a>
+</div>
+
+<div class="container">
+<h2>Admin Dashboard</h2>
+
+<!-- Summary Cards -->
+<div class="summary-cards">
+    <div class="card users">
+        <h3>Total Users</h3>
+        <p>{{total_users}}</p>
+    </div>
+
+    <div class="card loans">
+        <h3>Total Loans</h3>
+        <p>{{total_loans}}</p>
+    </div>
+
+    <div class="card pending">
+        <h3>Pending Loans</h3>
+        <p>{{pending}}</p>
+    </div>
+
+    <div class="card approved">
+        <h3>Approved Loans</h3>
+        <p>{{approved}}</p>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Approve Loan</title>
+
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Container ---------- */
+.container {
+    width: 40%;
+    margin: 50px auto;
+    background: white;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+}
+
+/* ---------- Header ---------- */
+h2 {
+    text-align: center;
+    color: #00796b;
+    margin-bottom: 25px;
+}
+
+/* ---------- User Info ---------- */
+p {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #333;
+}
+
+/* ---------- Form Inputs ---------- */
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 5px rgba(0,188,212,0.5);
+    outline: none;
+}
+
+/* ---------- Button ---------- */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #00bcd4, #00796b);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* ---------- Label ---------- */
+label {
+    font-weight: 500;
+    color: #555;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Approve Loan</h2>
+
+<p><strong>User:</strong> {{loan.user.full_name}}</p>
+<p><strong>Loan Amount:</strong> ₹ {{loan.loan_amount}}</p>
+
+<form method="POST">
+{% csrf_token %}
+
+<label>Interest Rate (%)</label>
+<input type="number" name="interest" required>
+
+<label>Duration (Months)</label>
+<input type="number" name="duration" required>
+
+<button type="submit">Approve Loan</button>
+
+</form>
+</div>
+
+</body>
+</html>

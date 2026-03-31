@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Pay EMI</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fb, #e0f7fa);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 40%;
+    margin: 60px auto;
+    background: #ffffff;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.container:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #111;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #555;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 10px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #00bcd4;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 188, 212, 0.5);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background: #00bcd4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0097a7;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Pay EMI</h2>
+    <p>EMI Amount: <strong>₹ {{loan.emi}}</strong></p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Amount</label>
+        <input type="number" name="amount" value="{{loan.emi}}" required>
+
+        <label>Payment Method</label>
+        <select name="method">
+            <option>UPI</option>
+            <option>Net Banking</option>
+            <option>Credit Card</option>
+            <option>Debit Card</option>
+        </select>
+
+        <button type="submit">Pay Now</button>
+    </form>
+</div>
+
+</body>
+</html>

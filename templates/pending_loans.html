@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pending Loans</title>
+<style>
+table{
+width:95%;
+margin:auto;
+margin-top:30px;
+border-collapse:collapse;
+}
+th,td{
+border:1px solid gray;
+padding:10px;
+text-align:center;
+}
+th{
+background:#00bcd4;
+color:white;
+}
+a{
+text-decoration:none;
+padding:5px 10px;
+background:#00796b;
+color:white;
+border-radius:4px;
+}
+</style>
+</head>
+<body>
+<h2 style="text-align:center;">Pending Loan Applications</h2>
+<table>
+<tr>
+<th>User</th>
+<th>Loan Type</th>
+<th>Amount</th>
+<th>Duration</th>
+<th>Action</th>
+</tr>
+{% for loan in loans %}
+<tr>
+<td>{{loan.user.full_name}}</td>
+<td>{{loan.loan_type}}</td>
+<td>{{loan.loan_amount}}</td>
+<td>{{loan.loan_duration}}</td>
+<td>
+<a href="/approve-loan/{{loan.id}}">Approve</a>
+<a href="/reject-loan/{{loan.id}}">Reject</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EMI Calculator</title>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg,#e0f7fa,#f5f7fb);
+    margin:0;
+    padding:0;
+}
+
+/* ---------- Container ---------- */
+.container {
+    width: 40%;
+    max-width: 500px;
+    margin: 60px auto;
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transition: transform 0.3s;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #00796b;
+}
+
+/* ---------- Inputs ---------- */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 15px 0;
+    border: 2px solid #00796b;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #26a69a;
+    box-shadow: 0 0 8px rgba(38,166,154,0.3);
+    outline: none;
+}
+
+/* ---------- Button ---------- */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg,#00796b,#26a69a);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(90deg,#26a69a,#00796b);
+    transform: scale(1.05);
+}
+
+/* ---------- Result ---------- */
+.result {
+    margin-top: 25px;
+    font-size: 18px;
+    color: #00796b;
+    text-align: center;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.result.show {
+    color: #d32f2f;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+        padding: 20px;
+    }
+    input, button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Loan EMI Calculator</h2>
+
+<label>Loan Amount</label>
+<input type="number" id="amount" placeholder="Enter amount">
+
+<label>Interest Rate (%)</label>
+<input type="number" id="interest" placeholder="Annual Interest Rate">
+
+<label>Duration (Months)</label>
+<input type="number" id="months" placeholder="Number of months">
+
+<button onclick="calculateEMI()">Calculate EMI</button>
+
+<div class="result" id="result"></div>
+</div>
+
+<script>
+function calculateEMI(){
+    var P = parseFloat(document.getElementById("amount").value);
+    var R = parseFloat(document.getElementById("interest").value);
+    var N = parseFloat(document.getElementById("months").value);
+
+    if(P <= 0 || R <= 0 || N <= 0){
+        document.getElementById("result").innerHTML = "Please enter valid numbers!";
+        document.getElementById("result").classList.add("show");
+        return;
+    } else {
+        document.getElementById("result").classList.remove("show");
+    }
+
+    R = R / (12*100);
+    var EMI = (P * R * Math.pow(1+R,N)) / (Math.pow(1+R,N)-1);
+
+    document.getElementById("result").innerHTML = "Monthly EMI: ₹ " + EMI.toFixed(2);
+}
+</script>
+
+</body>
+</html>

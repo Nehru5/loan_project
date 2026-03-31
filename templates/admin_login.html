@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Admin Login</title>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #f5f7fb);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---------- Container ---------- */
+.container {
+    width: 350px;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.3s;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    color: #00796b;
+    margin-bottom: 30px;
+}
+
+/* ---------- Form Inputs ---------- */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+label {
+    text-align: left;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #00bcd4;
+    box-shadow: 0 0 5px rgba(0,188,212,0.5);
+    outline: none;
+}
+
+/* ---------- Submit Button ---------- */
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #26a69a, #00bcd4);
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #00bcd4, #26a69a);
+    transform: scale(1.03);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Admin Login</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter username" required>
+    
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter password" required>
+    
+    <button type="submit">Login</button>
+</form>
+
+</div>
+
+</body>
+</html>

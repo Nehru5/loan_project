@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Approved Loans</title>
+<style>
+table{
+width:95%;
+margin:auto;
+margin-top:30px;
+border-collapse:collapse;
+}
+th,td{
+border:1px solid gray;
+padding:10px;
+text-align:center;
+}
+th{
+background:#4caf50;
+color:white;
+}
+a{
+text-decoration:none;
+padding:5px 10px;
+background:#388e3c;
+color:white;
+border-radius:4px;
+}
+</style>
+</head>
+<body>
+<h2 style="text-align:center;">Approved Loan Applications</h2>
+<table>
+<tr>
+<th>User</th>
+<th>Loan Type</th>
+<th>Amount</th>
+<th>Duration</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+{% for loan in loans %}
+<tr>
+<td>{{loan.user.full_name}}</td>
+<td>{{loan.loan_type}}</td>
+<td>{{loan.loan_amount}}</td>
+<td>{{loan.loan_duration}}</td>
+<td>{{loan.status}}</td>
+<td>
+<a href="/loan-details/{{loan.id}}">View</a>
+</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>

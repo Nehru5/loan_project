@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>All Loans</title>
+
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    margin: 0;
+    padding: 20px 0;
+    color: #333;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align: center;
+    color: #00796b;
+    margin-bottom: 30px;
+}
+
+/* ---------- Table ---------- */
+table {
+    width: 95%;
+    margin: auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Table Header */
+th {
+    background: linear-gradient(90deg, #00bcd4, #26a69a);
+    color: white;
+    padding: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Table Cells */
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Hover Effect on Rows */
+tr:hover {
+    background: #e0f7fa;
+    transition: 0.3s;
+}
+
+/* Status Badges */
+.status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 500;
+}
+
+.status.Pending {
+    background: #ffeaa7;
+    color: #1a1a2e;
+}
+
+.status.Approved {
+    background: #55efc4;
+    color: #1a1a2e;
+}
+
+.status.Rejected {
+    background: #ff7675;
+}
+
+/* Action Buttons */
+a.action-btn {
+    text-decoration: none;
+    padding: 6px 12px;
+    margin: 0 3px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+a.approve {
+    background: #2ecc71;
+}
+
+a.approve:hover {
+    background: #27ae60;
+}
+
+a.reject {
+    background: #e74c3c;
+}
+
+a.reject:hover {
+    background: #c0392b;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>All Loan Applications</h2>
+
+<table>
+<tr>
+<th>User</th>
+<th>Loan Type</th>
+<th>Amount</th>
+<th>Duration</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for loan in loans %}
+<tr>
+<td>{{loan.user.full_name}}</td>
+<td>{{loan.loan_type}}</td>
+<td>₹ {{loan.loan_amount}}</td>
+<td>{{loan.loan_duration}} Months</td>
+<td>
+    <span class="status {{loan.status}}">{{loan.status}}</span>
+</td>
+<td>
+    <a href="/approve-loan/{{loan.id}}" class="action-btn approve">Approve</a>
+    <a href="/reject-loan/{{loan.id}}" class="action-btn reject">Reject</a>
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loan Status</title>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f7fb;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align: center;
+    margin-top: 40px;
+    color: #00796b;
+}
+
+/* ---------- Table ---------- */
+table {
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* ---------- Table Header ---------- */
+th {
+    background: linear-gradient(90deg, #00796b, #26a69a);
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+/* ---------- Table Rows ---------- */
+td {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    transition: background 0.3s, transform 0.3s;
+}
+
+/* Alternate row colors */
+tr:nth-child(even) td {
+    background: #f0fdfd;
+}
+
+/* Hover effect for rows */
+tr:hover td {
+    background: #e0f7f7;
+    transform: scale(1.02);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    table, th, td {
+        font-size: 12px;
+    }
+    td, th {
+        padding: 10px;
+    }
+}
+</style>
+</head>
+<body>
+
+<h2>Loan Status</h2>
+
+<table>
+<tr>
+    <th>Loan Type</th>
+    <th>Amount</th>
+    <th>Duration</th>
+    <th>Status</th>
+    <th>Applied Date</th>
+</tr>
+
+{% for loan in loans %}
+<tr>
+    <td>{{loan.loan_type}}</td>
+    <td>${{loan.loan_amount}}</td>
+    <td>{{loan.loan_duration}} months</td>
+    <td>{{loan.status}}</td>
+    <td>{{loan.applied_date|date:"d-m-Y H:i"}}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

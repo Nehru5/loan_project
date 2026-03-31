@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loan Application</title>
+
+<style>
+/* ---------- Body ---------- */
+body{
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin:0;
+  background: linear-gradient(135deg, #f5f7fb 0%, #e0f7fa 100%);
+  overflow-x: hidden;
+}
+
+/* ---------- Navbar ---------- */
+.navbar{
+  background: linear-gradient(90deg, #111, #00bcd4);
+  padding:18px 40px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position: sticky;
+  top:0;
+  z-index:1000;
+  box-shadow:0 4px 8px rgba(0,0,0,0.2);
+  animation: slideDown 1s ease-out;
+}
+
+@keyframes slideDown{
+  0%{transform: translateY(-100px); opacity:0;}
+  100%{transform: translateY(0); opacity:1;}
+}
+
+.logo{
+  color:white;
+  font-size:26px;
+  font-weight:bold;
+  letter-spacing:1px;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+}
+
+.nav-links a{
+  color:white;
+  text-decoration:none;
+  margin-left:30px;
+  font-size:16px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover{
+  color:#222;
+  text-shadow: 0 0 10px #00bcd4;
+  transform: scale(1.1);
+}
+
+/* ---------- Hero Section ---------- */
+.container{
+  padding:100px 20px;
+  text-align:center;
+}
+
+.container h1{
+  font-size:48px;
+  color:#111;
+  background: linear-gradient(90deg, #00bcd4, #111);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInText 1.5s ease forwards;
+}
+
+@keyframes fadeInText{
+  0%{opacity:0; transform: translateY(-20px);}
+  100%{opacity:1; transform: translateY(0);}
+}
+
+.container p{
+  font-size:20px;
+  color:#555;
+  margin-top:15px;
+  animation: fadeInText 2s ease forwards;
+}
+
+.btn{
+  margin-top:30px;
+  padding:15px 35px;
+  background: linear-gradient(90deg, #111, #00bcd4);
+  color:white;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:bold;
+  border-radius:50px;
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+  transition:0.4s;
+}
+
+.btn:hover{
+  background: linear-gradient(90deg, #00bcd4, #111);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* ---------- Features Cards ---------- */
+.features{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  margin-top:80px;
+  flex-wrap:wrap;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  width:280px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.1);
+  border-radius:12px;
+  text-align:center;
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.card:hover{
+  transform: translateY(-15px) rotate(-1deg);
+  box-shadow:0 15px 25px rgba(0,0,0,0.2);
+}
+
+.card h3{
+  margin-bottom:12px;
+  color:#111;
+  font-size:20px;
+  background: linear-gradient(90deg, #00bcd4, #111);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card p{
+  color:#555;
+  font-size:15px;
+  line-height:1.5;
+}
+
+/* ---------- Footer Animation (Optional) ---------- */
+@keyframes pulse{
+  0%, 100%{transform: scale(1);}
+  50%{transform: scale(1.05);}
+}
+
+.btn{
+  animation: pulse 2s infinite;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <div class="logo">EasyLoan</div>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="/register/">Register</a>
+    <a href="/login/">User Login</a>
+    <a href="/admin-login/">Admin Login</a>
+  </div>
+</div>
+
+<!-- Hero Section -->
+<div class="container">
+  <h1>Loan Management System</h1>
+  <p>Fast • Easy • Secure Loan Application Platform</p>
+  <a href="/register/" class="btn">Apply Loan Now</a>
+
+  <div class="features">
+    <div class="card">
+      <h3>Easy Apply</h3>
+      <p>Apply loans quickly with a simple and intuitive process.</p>
+    </div>
+    <div class="card">
+      <h3>Quick Approval</h3>
+      <p>Fast loan approval by our experienced admin team.</p>
+    </div>
+    <div class="card">
+      <h3>Track Status</h3>
+      <p>Monitor your loan status anytime from your dashboard.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

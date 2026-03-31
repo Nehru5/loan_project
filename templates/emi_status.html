@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EMI Status</title>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg,#f5f7fb,#e0f7fa);
+    margin:0;
+    padding:0;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align:center;
+    color:#00796b;
+    margin-top:40px;
+    margin-bottom:20px;
+}
+
+/* ---------- Table ---------- */
+table {
+    width:90%;
+    margin:auto;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+/* Table Header */
+th {
+    background: linear-gradient(90deg,#00796b,#26a69a);
+    color: white;
+    padding: 12px;
+    font-weight: 600;
+}
+
+/* Table Cells */
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    transition: background 0.3s, color 0.3s;
+}
+
+/* Zebra Rows */
+tr:nth-child(even) td {
+    background: #f1f9f8;
+}
+
+/* Hover Effect on Row */
+tr:hover td {
+    background: #b2dfdb;
+    color: #004d40;
+    font-weight: bold;
+}
+
+/* Certificate Button */
+a {
+    background: #00796b;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+a:hover {
+    background: #26a69a;
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Not Available Text */
+span.not-available {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    table, th, td {
+        font-size: 14px;
+    }
+
+    a {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+</style>
+</head>
+<body>
+
+<h2>EMI Status</h2>
+
+<table>
+<tr>
+<th>Loan Amount</th>
+<th>Total EMI</th>
+<th>Paid EMI</th>
+<th>Remaining EMI</th>
+<th>Status</th>
+<th>Certificate</th>
+</tr>
+
+{% for item in data %}
+<tr>
+<td>₹ {{item.loan.approved_amount}}</td>
+<td>{{item.total}}</td>
+<td>{{item.paid}}</td>
+<td>{{item.remaining}}</td>
+<td>{% if item.remaining == 0 %}Completed{% else %}Ongoing{% endif %}</td>
+<td>
+{% if item.remaining == 0 %}
+<a href="/loan-certificate/{{item.loan.id}}">Download</a>
+{% else %}
+<span class="not-available">Not Available</span>
+{% endif %}
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

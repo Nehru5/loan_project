@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Apply Loan</title>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #f5f7fb);
+    margin: 0;
+}
+
+/* ---------- Container ---------- */
+.container {
+    width: 50%;
+    margin: 50px auto;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align: center;
+    color: #00796b;
+    margin-bottom: 30px;
+}
+
+/* ---------- Form Elements ---------- */
+input, select, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #b2dfdb;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #00796b;
+    box-shadow: 0 0 8px rgba(0,121,107,0.3);
+    outline: none;
+}
+
+/* ---------- Labels ---------- */
+label {
+    font-weight: 600;
+    color: #004d40;
+}
+
+/* ---------- Button ---------- */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #00796b, #26a69a);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #004d40, #00796b);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 30px 20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h2>Apply Loan</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<label>Loan Type</label>
+<select name="loan_type" required>
+<option value="Personal Loan">Personal Loan</option>
+<option value="Home Loan">Home Loan</option>
+<option value="Education Loan">Education Loan</option>
+<option value="Vehicle Loan">Vehicle Loan</option>
+<option value="Business Loan">Business Loan</option>
+</select>
+
+<label>Loan Amount</label>
+<input type="number" name="amount" placeholder="Enter amount" required>
+
+<label>Loan Duration (Months)</label>
+<input type="number" name="duration" placeholder="Enter duration in months" required>
+
+<label>Purpose</label>
+<textarea name="purpose" placeholder="Reason for loan"></textarea>
+
+<button type="submit">Apply Loan</button>
+
+</form>
+
+</div>
+
+</body>
+</html>

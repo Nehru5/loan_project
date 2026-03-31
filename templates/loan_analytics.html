@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Loan Analytics</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ---------- Body ---------- */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f7fb;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+    background: linear-gradient(90deg, #26a69a, #00bcd4);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #ffeb3b;
+    transform: scale(1.05);
+}
+
+/* ---------- Container ---------- */
+.container {
+    width: 90%;
+    margin: 30px auto;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+    text-align: center;
+    color: #00796b;
+    margin-bottom: 30px;
+}
+
+/* ---------- Charts Layout ---------- */
+.chart-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ---------- Card ---------- */
+.card {
+    background: white;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    width: 45%;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+/* ---------- Chart Size ---------- */
+canvas {
+    height: 300px !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .card {
+        width: 90%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div>EasyLoan Analytics</div>
+    <div>
+        <a href="/dashboard/">Dashboard</a>
+        <a href="/apply-loan/">Apply Loan</a>
+        <a href="/loan-status/">Loan Status</a>
+        <a href="/emi-payment/">EMI Payment</a>
+        <a href="/payment-history/">Payment History</a>
+        <a href="/logout/">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+<h2>Loan Analytics Dashboard</h2>
+
+<div class="chart-container">
+
+    <div class="card">
+        <canvas id="loanChart"></canvas>
+    </div>
+
+    <div class="card">
+        <canvas id="amountChart"></canvas>
+    </div>
+
+</div>
+</div>
+
+<script>
+var total_loans = {{data.total_loans}};
+var approved = {{data.approved}};
+var rejected = {{data.rejected}};
+var total_emi = {{data.total_emi}};
+var total_amount = {{data.total_amount}};
+
+// -------- Loan Status Chart --------
+new Chart(document.getElementById("loanChart"), {
+    type: 'bar',
+    data: {
+        labels: ['Total Loans','Approved','Rejected','EMI Paid'],
+        datasets: [{
+            label: 'Loan Data',
+            data: [total_loans, approved, rejected, total_emi],
+            backgroundColor: [
+                '#26a69a',
+                '#00bcd4',
+                '#ff7043',
+                '#fdd835'
+            ],
+            borderWidth:1
+        }]
+    },
+    options: {
+        responsive:true,
+        plugins:{
+            legend:{ display:false }
+        }
+    }
+});
+
+// -------- Amount Chart --------
+new Chart(document.getElementById("amountChart"), {
+    type: 'pie',
+    data: {
+        labels:['Total Loan Amount'],
+        datasets:[{
+            data:[total_amount],
+            backgroundColor:['#ab47bc']
+        }]
+    },
+    options:{ responsive:true }
+});
+</script>
+
+</body>
+</html>

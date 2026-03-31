@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Register - Multi Step</title>
+<style>
+/* ---------- Body ---------- */
+body{
+    font-family:'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fb, #e0f7fa);
+    margin:0;
+    padding:0;
+}
+
+/* ---------- Container ---------- */
+.container{
+    width:70%;
+    max-width:800px;
+    margin:40px auto;
+    background:white;
+    padding:30px 40px;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    animation: fadeIn 1s ease-out;
+}
+
+/* ---------- Fade-in ---------- */
+@keyframes fadeIn{
+    0%{opacity:0; transform: translateY(-30px);}
+    100%{opacity:1; transform: translateY(0);}
+}
+
+/* ---------- Step Indicator ---------- */
+.step-indicator{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+.step{
+    width:25%;
+    text-align:center;
+    position:relative;
+    font-size:14px;
+    font-weight:bold;
+    color:#aaa;
+}
+.step.active{
+    color:#00bcd4;
+}
+.step::before{
+    content:'';
+    position:absolute;
+    top:20px;
+    left:50%;
+    width:100%;
+    height:4px;
+    background:#ddd;
+    z-index:-1;
+}
+.step:first-child::before{
+    left:50%;
+    width:50%;
+}
+.step:last-child::before{
+    width:50%;
+}
+.step.active::before{
+    background:#00bcd4;
+}
+
+/* ---------- Form Steps ---------- */
+.form-step{
+    display:none;
+    animation: fadeInStep 0.5s ease-in-out;
+}
+.form-step.active{
+    display:block;
+}
+@keyframes fadeInStep{
+    0%{opacity:0; transform: translateX(50px);}
+    100%{opacity:1; transform: translateX(0);}
+}
+
+/* ---------- Form Inputs ---------- */
+input, textarea, select{
+    width:100%;
+    padding:12px 15px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:2px solid #ddd;
+    border-radius:8px;
+    outline:none;
+    transition:0.3s;
+    font-size:15px;
+}
+input:focus, textarea:focus, select:focus{
+    border-color:#00bcd4;
+    box-shadow:0 0 10px rgba(0,188,212,0.3);
+}
+textarea{
+    min-height:80px;
+    resize:none;
+}
+
+/* ---------- Buttons ---------- */
+button{
+    padding:12px 25px;
+    margin-top:10px;
+    border:none;
+    border-radius:50px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    background: linear-gradient(90deg, #111, #00bcd4);
+    color:white;
+    transition:0.4s;
+}
+button:hover{
+    background: linear-gradient(90deg, #00bcd4, #111);
+    transform: scale(1.03);
+}
+
+/* Navigation Buttons */
+.button-group{
+    display:flex;
+    justify-content:space-between;
+    margin-top:20px;
+}
+
+/* ---------- Responsive ---------- */
+@media(max-width:768px){
+    .container{
+        width:90%;
+        padding:20px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+
+<!-- Step Indicators -->
+<div class="step-indicator">
+    <div class="step active">Personal Info</div>
+    <div class="step">Login</div>
+    <div class="step">Documents</div>
+    <div class="step">Bank & Employment</div>
+</div>
+
+<!-- Step 1: Personal Info -->
+<div class="form-step active">
+    <h2>Personal Information</h2>
+    <input type="text" name="full_name" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email">
+    <input type="text" name="phone" placeholder="Phone">
+    <input type="date" name="dob">
+    <textarea name="address" placeholder="Address"></textarea>
+    <input type="text" name="city" placeholder="City">
+    <input type="text" name="state" placeholder="State">
+    <input type="text" name="pincode" placeholder="Pincode">
+</div>
+
+<!-- Step 2: Login Details -->
+<div class="form-step">
+    <h2>Login Details</h2>
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+</div>
+
+<!-- Step 3: Upload Documents -->
+<div class="form-step">
+    <h2>Upload Documents</h2>
+    Profile Image  <input type="file" name="profile_image">
+    Signature  <input type="file" name="signature">
+    Aadhaar Number  <input type="text" name="aadhaar_number">
+    Aadhaar Upload  <input type="file" name="aadhaar_image">
+    PAN Number  <input type="text" name="pan_number">
+    PAN Upload  <input type="file" name="pan_image">
+</div>
+
+<!-- Step 4: Bank & Employment -->
+<div class="form-step">
+    <h2>Bank & Employment Details</h2>
+    <input type="text" name="bank_name" placeholder="Bank Name">
+    <input type="text" name="account_number" placeholder="Account Number">
+    <input type="text" name="ifsc" placeholder="IFSC Code">
+    <input type="text" name="occupation" placeholder="Occupation">
+    <input type="text" name="company" placeholder="Company Name">
+    <input type="number" name="salary" placeholder="Monthly Salary">
+    <input type="number" name="experience" placeholder="Experience (Years)">
+</div>
+
+<!-- Navigation Buttons -->
+<div class="button-group">
+    <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+    <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+</div>
+
+</form>
+</div>
+
+<script>
+let currentStep = 0;
+const steps = document.querySelectorAll(".form-step");
+const indicators = document.querySelectorAll(".step");
+
+function showStep(n){
+    steps.forEach((step,i)=> step.classList.remove("active"));
+    indicators.forEach((ind,i)=> ind.classList.remove("active"));
+    steps[n].classList.add("active");
+    indicators[n].classList.add("active");
+
+    document.getElementById("prevBtn").style.display = n==0 ? "none" : "inline-block";
+    document.getElementById("nextBtn").innerHTML = n==steps.length-1 ? "Submit" : "Next";
+}
+showStep(currentStep);
+
+function nextPrev(n){
+    if(n==1 && !validateForm()) return false;
+    currentStep += n;
+    if(currentStep >= steps.length){
+        document.querySelector("form").submit();
+        return false;
+    }
+    showStep(currentStep);
+}
+
+function validateForm(){
+    let valid = true;
+    const inputs = steps[currentStep].querySelectorAll("input,textarea,select");
+    inputs.forEach(input=>{
+        if(input.hasAttribute("required") && input.value==""){
+            input.style.borderColor="red";
+            valid=false;
+        } else{
+            input.style.borderColor="#ddd";
+        }
+    });
+    return valid;
+}
+</script>
+
+</body>
+</html>
