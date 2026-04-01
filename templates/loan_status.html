@@ -85,7 +85,7 @@ tr:hover td {
 {% for loan in loans %}
 <tr>
     <td>{{loan.loan_type}}</td>
-    <td>${{loan.loan_amount}}</td>
+    <td>&#8377;{{loan.loan_amount}}</td>
     <td>{{loan.loan_duration}} months</td>
     <td>{{loan.status}}</td>
     <td>{{loan.applied_date|date:"d-m-Y H:i"}}</td>

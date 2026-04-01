@@ -370,31 +370,79 @@ from reportlab.lib.pagesizes import A4
 from .models import *
 
 
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+
 def download_receipt(request,id):
 
     payment = Payment.objects.get(id=id)
 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="receipt.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="EMI_Receipt.pdf"'
 
     p = canvas.Canvas(response, pagesize=A4)
 
-    p.setFont("Helvetica", 14)
+    # ---------- Header ----------
+    p.setFont("Helvetica-Bold",16)
+    p.drawString(200,800,"EasyLoan Finance Pvt Ltd")
 
-    p.drawString(200,800,"Loan EMI Payment Receipt")
+    p.setFont("Helvetica",10)
+    p.drawString(220,785,"Loan Payment Receipt")
 
-    p.setFont("Helvetica", 12)
+    # Line
+    p.setStrokeColor(colors.black)
+    p.line(50,770,550,770)
 
-    p.drawString(100,750,f"Customer Name : {payment.loan.user.full_name}")
-    p.drawString(100,720,f"Loan Amount : {payment.loan.loan_amount}")
-    p.drawString(100,690,f"EMI Number : {payment.emi_number}")
-    p.drawString(100,660,f"Paid Amount : {payment.amount}")
-    p.drawString(100,630,f"Payment Method : {payment.payment_method}")
-    p.drawString(100,600,f"Payment Date : {payment.payment_date}")
+    # ---------- Receipt Box ----------
+    p.setStrokeColor(colors.grey)
+    p.rect(50,500,500,240, stroke=1, fill=0)
 
-    p.drawString(100,550,"Status : Payment Successful")
+    # ---------- Title ----------
+    p.setFont("Helvetica-Bold",14)
+    p.drawString(200,730,"EMI PAYMENT RECEIPT")
 
-    p.drawString(100,500,"Thank you for your payment")
+    # ---------- Customer Details ----------
+    p.setFont("Helvetica-Bold",12)
+    p.drawString(70,700,"Customer Details")
+
+    p.setFont("Helvetica",11)
+    p.drawString(70,675,f"Customer Name : {payment.loan.user.full_name}")
+    p.drawString(70,655,f"Loan Amount : ₹ {payment.loan.loan_amount}")
+    p.drawString(70,635,f"EMI Number : {payment.emi_number}")
+
+    # ---------- Payment Details ----------
+    p.setFont("Helvetica-Bold",12)
+    p.drawString(70,600,"Payment Details")
+
+    p.setFont("Helvetica",11)
+    p.drawString(70,575,f"Paid Amount : ₹ {payment.amount}")
+    p.drawString(70,555,f"Payment Method : {payment.payment_method}")
+    p.drawString(70,535,f"Payment Date : {payment.payment_date}")
+
+    # ---------- Status ----------
+    p.setFont("Helvetica-Bold",12)
+    p.setFillColor(colors.green)
+    p.drawString(70,510,"Status : Payment Successful")
+
+    p.setFillColor(colors.black)
+
+    # ---------- Footer Box ----------
+    p.setStrokeColor(colors.grey)
+    p.rect(50,400,500,70, stroke=1, fill=0)
+
+    p.setFont("Helvetica",10)
+    p.drawString(70,440,"This is a system generated receipt and does not require signature.")
+    p.drawString(70,420,"Thank you for choosing EasyLoan Finance.")
+
+    # ---------- Footer ----------
+    p.line(50,380,550,380)
+
+    p.setFont("Helvetica",9)
+    p.drawString(200,360,"EasyLoan Finance Pvt Ltd")
+    p.drawString(190,345,"Customer Support : support@easyloan.com")
 
     p.showPage()
     p.save()
@@ -413,6 +461,13 @@ from reportlab.lib.units import inch
 
 
 from django.http import HttpResponse
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib import colors
+from reportlab.lib.units import inch
 
 def loan_certificate(request,id):
 
@@ -434,10 +489,11 @@ def loan_certificate(request,id):
 
     story = []
 
+    # ---------- Title ----------
     title = Paragraph(
-        "<b>Loan Closure Certificate</b>",
+        "<b>EasyLoan Finance Pvt Ltd</b>",
         ParagraphStyle(
-            'Title',
+            'Company',
             parent=styles['Heading1'],
             alignment=TA_CENTER,
             textColor=colors.black
@@ -445,25 +501,101 @@ def loan_certificate(request,id):
     )
 
     story.append(title)
-    story.append(Spacer(1, 20))
+    story.append(Spacer(1, 10))
 
+    subtitle = Paragraph(
+        "<b>Loan Closure Certificate</b>",
+        ParagraphStyle(
+            'Title',
+            parent=styles['Heading2'],
+            alignment=TA_CENTER,
+            textColor=colors.darkblue
+        )
+    )
+
+    story.append(subtitle)
+    story.append(Spacer(1, 30))
+
+
+    # ---------- Certificate Text ----------
     text = f"""
-    This is to certify that <b>{loan.loan.user.full_name}</b> 
-    has successfully completed the loan repayment.
+    This is to certify that <b>{loan.loan.user.full_name}</b> has successfully 
+    completed the repayment of the loan provided by <b>EasyLoan Finance Pvt Ltd</b>.
 
-    Loan Amount : {loan.approved_amount} <br/>
-    Interest Rate : {loan.interest_rate}% <br/>
-    Duration : {loan.duration} Months <br/>
-
-    All EMI payments have been successfully completed.
-    
-    This loan account is now closed.
+    All EMI payments related to the below loan account have been successfully completed.
     """
 
     story.append(Paragraph(text, styles["Normal"]))
+    story.append(Spacer(1, 25))
+
+
+    # ---------- Loan Details Table ----------
+    data = [
+        ["Customer Name", loan.loan.user.full_name],
+        ["Loan Amount", f"₹ {loan.approved_amount}"],
+        ["Interest Rate", f"{loan.interest_rate}%"],
+        ["Loan Duration", f"{loan.duration} Months"],
+        ["Loan Status", "Closed"]
+    ]
+
+    table = Table(data, colWidths=[200, 250])
+
+    table.setStyle(TableStyle([
+        ('BACKGROUND',(0,0),(-1,0),colors.grey),
+        ('TEXTCOLOR',(0,0),(-1,0),colors.whitesmoke),
+
+        ('BACKGROUND',(0,0),(0,-1),colors.lightgrey),
+        ('TEXTCOLOR',(0,0),(0,-1),colors.black),
+
+        ('GRID',(0,0),(-1,-1),1,colors.black),
+        ('FONTNAME',(0,0),(-1,-1),'Helvetica'),
+        ('FONTSIZE',(0,0),(-1,-1),10),
+        ('BOTTOMPADDING',(0,0),(-1,-1),10),
+    ]))
+
+    story.append(table)
     story.append(Spacer(1, 40))
 
-    story.append(Paragraph("Authorized Signature", styles["Normal"]))
+
+    # ---------- Closing Text ----------
+    closing = """
+    This certificate is issued upon successful repayment of all dues. 
+    The loan account is now officially closed with no pending balance.
+    """
+
+    story.append(Paragraph(closing, styles["Normal"]))
+    story.append(Spacer(1, 60))
+
+
+    # ---------- Signature Section ----------
+    signature_table = Table([
+        ["", ""],
+        ["Authorized Signature", "Company Seal"]
+    ], colWidths=[250, 250])
+
+    signature_table.setStyle(TableStyle([
+        ('ALIGN',(0,0),(-1,-1),'CENTER'),
+        ('LINEABOVE',(0,0),(0,0),1,colors.black),
+        ('LINEABOVE',(1,0),(1,0),1,colors.black),
+    ]))
+
+    story.append(signature_table)
+
+
+    # ---------- Footer ----------
+    story.append(Spacer(1, 40))
+
+    footer = Paragraph(
+        "EasyLoan Finance Pvt Ltd | Customer Support : support@easyloan.com",
+        ParagraphStyle(
+            'Footer',
+            parent=styles['Normal'],
+            alignment=TA_CENTER,
+            textColor=colors.grey
+        )
+    )
+
+    story.append(footer)
 
     doc = SimpleDocTemplate(response, pagesize=A4)
     doc.build(story)
