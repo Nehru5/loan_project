@@ -296,7 +296,10 @@ def emi_payment(request):
     )
 
     return render(request,'emi_payment.html',{'loans':loans})
-  
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .models import LoanApproval, Payment
+
 def pay_emi(request,id):
 
     loan = LoanApproval.objects.get(id=id)
@@ -304,6 +307,9 @@ def pay_emi(request,id):
     paid_count = Payment.objects.filter(
         loan=loan.loan
     ).count()
+
+    if paid_count >= loan.duration:
+        return render(request, 'loan_completed.html', {'loan': loan})
 
     next_emi = paid_count + 1
 
@@ -313,12 +319,10 @@ def pay_emi(request,id):
         method = request.POST.get('method')
 
         Payment.objects.create(
-
             loan=loan.loan,
             amount=amount,
             payment_method=method,
             emi_number=next_emi
-
         )
 
         return redirect('/payment-history/')
@@ -334,6 +338,34 @@ def payment_history(request):
     )
 
     return render(request,'payment_history.html',{'payments':payments})
+
+from django.shortcuts import render
+from .models import LoanApproval, Payment
+
+def emi_payment(request):
+
+    user_id = request.session.get('user_id')
+
+    if not user_id:
+        return redirect('/login/')
+
+    loans = LoanApproval.objects.filter(
+        loan__user_id=user_id
+    )
+
+    loans_data = []
+
+    for loan in loans:
+        paid = Payment.objects.filter(loan=loan.loan).count()
+        remaining = loan.duration - paid
+
+        loans_data.append({
+            'loan': loan,
+            'paid': paid,
+            'remaining': remaining
+        })
+
+    return render(request, 'emi_payment.html', {'loans_data': loans_data})
   
 def emi_status(request):
 
